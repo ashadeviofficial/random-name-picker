@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="main.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+	
+        <title>Jackpot</title>
+    </head>
+	
+    <body>
+
+<div class="overlay">
+  <canvas id="world"></canvas>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+		<div class="offcanvas-header">
+			<h5 id="offcanvasRightLabel">Settings</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<button type="button" id="btnReadFile" class="btn btn-primary"  data-bs-dismiss="offcanvas">Load From File</button>
+		</div>
+	</div>
+	<script src="main.js"></script>	
+  <h1 id="winner"></h1>
+  <svg id="close" aria-hidden="true" data-prefix="far" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="svg-inline--fa fa-times fa-w-10 fa-3x"><path fill="white" d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z" class=""></path></svg>
+
+
+</div>
+
+<div class="background">
+
+        <div class="header"> 
+		<div class="logo">
+		</div>
+			
+		<div class="title display-1">
+			Jackpot
+		</div>
+			
+		<div class="navb">
+			<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Settings</button> -->
+			<button type="button" class="btn btn-primary"data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Settings</button>
+			<button type="button" class="btn btn-danger" onclick="reset()">Reset</button>
+		</div>
+	</div>
+	<marquee direction="right" scrollamount="20">
+		<div id="pickList" class="pickList">
+		
+		</div>
+	</marquee>
+
+	<div id="controls" class="controls">	
+		<button  type="button" id="pick" class="btn btn-success" hidden>Select Winner
+		</button>&nbsp<button  type="button" id="show" class="btn btn-warning" hidden>Show Winners
+		</button>	
+	</div>
+		
+	<input type="file" name="inputfile" id="inputfile" onchange="fileRead(this)" hidden>
+
+
+        <div id="selectedList" class="selectedList" align="center" hidden>	
+	</div>
+	
+	
+
+</div>
+
+	
+				
+    </body>
+</html>
