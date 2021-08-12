@@ -1,51 +1,23 @@
 var names = [];
 var pickList = [];
-
+var selectedList = [];
+var winnerName ="";
 $(document).ready(function(){
 
-$("#btnReadFile").click(readFile);
-
-$("#pick").click(function() {
-
-if(names.length > 0){
-  
-  // Get a random name, the winner
-  var index = Math.floor(Math.random()*pickList.length)
-  var winner = pickList[index];
-	pickList.splice(index,1);
-	loadNames();
-	addToSelectedList(winner);
- 
-  winner = "🎉" + " " + winner + " " + "🎉";
-  
-  // Display winner
-  $("#world").addClass("open");
-  $("#winner").addClass("open");
-  $("#close").addClass("open");
-  $("#winner").text(winner);  
-
-}else{
- window.alert("Names Over!");
-}
+	$("#btnReadFile").click(readFile);
+	$("#btnPick").click(selectWinner);
+	$("#close").click(function() {
+  		$("#world").removeClass("open");
+  		$("#winner").removeClass("open");
+  		$("#close").removeClass("open");
+		var element = document.getElementById(winnerName);
+  		element.classList.remove("hide");
+	});
 
 });
 
-$("#close").click(function() {
-  $("#world").removeClass("open");
-  $("#winner").removeClass("open");
-  $("#close").removeClass("open");
-});
-
-$("#show").click(function() {
-document.getElementById("selectedList").hidden=false;  
-});
-
-});
-
-function readFile(){
-	
+function readFile(){	
 	document.getElementById("inputfile").click();
-	
 }
 
 function fileRead(input) {    
@@ -56,23 +28,60 @@ function fileRead(input) {
 
 	reader.onload = function() {
 		names = reader.result.split("\n");
-		pickList = names.slice();
+		if(names.length>0){
+			pickList = names.slice();
+		}
+		
+		if(pickList.length > 0){
+			pickList.splice(pickList.length-1,1);
+		}
+				
 		loadNames();
+		$("#toastLoad").toast({ delay: 2000 });
+		$("#toastLoad").toast('show');
 	};
 
 	reader.onerror = function() {
+		window.alert("File Load Failed");
 		console.log(reader.error);
 	};
-
-	document.getElementById("pick").hidden=false;
-	document.getElementById("show").hidden=false;
 }
+
+
+function selectWinner(){
+
+	if(pickList.length > 0){
+  
+  			// Get a random name, the winner
+ 			var index = Math.floor(Math.random()*pickList.length)
+  			var winner = pickList[index];
+			pickList.splice(index,1);
+			loadNames();
+			winnerName = winner ;
+  			winner = "🎉" + " " + winner  + " " + "🎉";
+  
+  			// Display winner
+  			$("#world").addClass("open");
+  			$("#winner").addClass("open");
+  			$("#close").addClass("open");
+  			$("#winner").text(winner);  
+	
+
+	}else{
+ 		window.alert("Names Over!");
+	}
+	addToSelectedList(winnerName);
+	showWinner();
+}
+
 
 function loadNames(){
 	clearPickList();
 	pickList.forEach(loadValue);
 	function loadValue(value){
+		
 		if(value.localeCompare("") != 0){
+			
 			var innerDiv = document.createElement('div');
 			innerDiv.className = 'pickListNames';
 			innerDiv.innerHTML  = value;
@@ -83,30 +92,49 @@ function loadNames(){
 }
 
 function reset(){
+	if(names.length>0){
+		pickList = names.slice();
+	}
+		
+	if(pickList.length > 0){
+		pickList.splice(pickList.length-1,1);
+	}
 	
-	pickList = names.slice();
 	loadNames();
+	selectedList = [];
 	clearSelectedList();
-	document.getElementById("selectedList").hidden=true;
+	hideWinner();
+	$("#toastReset").toast({ delay: 1000 });
+	$("#toastReset").toast('show');		
+}
+
+function addToSelectedList(value){
+	if(value.localeCompare("") != 0){
+		var innerDiv = document.createElement('div');
+		innerDiv.className = 'selectedListNames h4 shadow hide';
+		innerDiv.id=value;
+		innerDiv.innerHTML  = value;
+		document.getElementById("selectedList").appendChild(innerDiv);
+	}
+}
+
+function showWinner() {
 	
-	
+  var element = document.getElementById("selected");
+  element.classList.remove("hide");
+}
+
+function hideWinner() {
+  var element = document.getElementById("selected");
+  element.classList.add("hide");
+}
+function clearSelectedList(){
+	document.getElementById("selectedList").innerHTML =''
 }
 
 function clearPickList(){
 	
 	document.getElementById("pickList").innerHTML ='';
-	
-}
-
-function addToSelectedList(value){
-	var innerDiv = document.createElement('div');
-	innerDiv.className = 'selectedListNames';
-	innerDiv.innerHTML  = value;
-	document.getElementById("selectedList").appendChild(innerDiv);
-}
-
-function clearSelectedList(){
-	document.getElementById("selectedList").innerHTML =''
 }
 
 
